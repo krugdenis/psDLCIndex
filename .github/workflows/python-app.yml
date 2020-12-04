@@ -26,10 +26,13 @@ jobs:
         pip install pyinstaller bs4 beautifulsoup4 lxml requests
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Create the Executable using Pyinstaller
-      run: |
-        pyinstaller --onefile dlcIndex.py
-        pyinstaller --onefile ez_dlc.py
-    - uses: actions/upload-artifact@v2
+      uses: addnab/docker-run-action@v1
       with:
-        name: EXE files
+        image: docker:latest
+        run: |
+          docker run -v cdrx/pyinstaller-windows "pyinstaller --onefile dlcIndex.py"
+          docker run -v cdrx/pyinstaller-windows "pyinstaller --onefile ez_dlc.py"
+    - name: EXE files
+      uses: actions/upload-artifact@v2
+      with:
         path: dist/*
