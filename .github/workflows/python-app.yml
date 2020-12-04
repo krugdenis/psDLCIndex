@@ -29,3 +29,7 @@ jobs:
       run: |
         pyinstaller --onefile dlcIndex.py
         pyinstaller --onefile ez_dlc.py
+    - uses: actions/upload-artifact@v2
+      with:
+        name: EXE files
+        path: ./dist/*.exe
